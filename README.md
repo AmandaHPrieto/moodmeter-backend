@@ -6,8 +6,7 @@ Il est construit avec Node.js, Express et MySQL.
 ## 📦 Installation
 
 1. Clonez ce dépôt :
-   ```bash
-   git clone <URL_DU_REPO>
+   git clone https://github.com/AmandaHPrieto/moodmeter-backend.git
    cd moodmeter-backend
 
 2. Installez les dépendances :
