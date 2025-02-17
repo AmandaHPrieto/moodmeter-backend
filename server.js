@@ -11,7 +11,7 @@ app.use(express.json());
 
 // Routes de test
 app.get('/', (req, res) => {
-    res.send('Moodmeter-Backend fonctionne !');
+    res.send('🥳 Le back-end de Moodmeter marche, woop woop !');
 });
 
 // Lancer le serveur
