@@ -42,7 +42,12 @@ app.post(
       return res.status(400).json({ errors: errors.array() });
     }
 
-    const { name, email, password } = req.body;
+    const { name, email, password, role } = req.body;
+
+    // Vérifie si le rôle est validé (s'il est soit "étudiant" ou "professeur")
+    if (role !== "étudiant" && role !== "professeur") {
+      return res.status(400).json({ message: "Rôle invalide." });
+    }
 
     // Vérifie si l'email existe déjà
     db.query("SELECT * FROM users WHERE email = ?", [email], async (err, result) => {
@@ -53,15 +58,21 @@ app.post(
 
       // Hash du mot de passe
       const hashedPassword = await bcrypt.hash(password, 10);
-      db.query("INSERT INTO users (name, email, password) VALUES (?, ?, ?)", [name, email, hashedPassword], (err) => {
-        if (err) {
-          return res.status(500).json({ message: "Erreur serveur." });
+      db.query(
+        "INSERT INTO users (name, email, password, role) VALUES (?, ?, ?, ?)",
+        [name, email, hashedPassword, role],  
+        (err) => {
+          if (err) {
+            return res.status(500).json({ message: "Erreur serveur." });
+          }
+          res.status(201).json({ message: "Utilisateur créé avec succès" });
         }
-        res.status(201).json({ message: "Utilisateur créé avec succès" });
-      });
+      );
     });
   }
 );
+
+
 
 // Route de connexion
 app.post("/login", (req, res) => {
@@ -75,12 +86,12 @@ app.post("/login", (req, res) => {
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) return res.status(400).json({ message: "Mot de passe incorrect" });
 
-    // Génère un token JWT
-    const token = jwt.sign({ id: user.id, email: user.email }, SECRET_KEY, { expiresIn: "1h" });
+    const token = jwt.sign({ id: user.id, email: user.email, role: user.role }, SECRET_KEY, { expiresIn: "1h" });
     res.json({ message: "Connexion réussie", token });
   });
 });
 
 app.listen(5000, () => {
-  console.log(" Serveur démarré sur http://localhost:5000");
+  console.log("Serveur démarré sur http://localhost:5000");
 });
+
