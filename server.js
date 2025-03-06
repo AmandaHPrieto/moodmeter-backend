@@ -3,7 +3,7 @@ const express = require('express');
 const cors = require('cors');
 const sequelize = require('./db');  
 const authRoutes = require('./src/routes/authRoutes');
-
+const userRoutes = require ('./src/routes/userRoutes')
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -15,6 +15,8 @@ app.use(express.json());
 // Routes
 // Auth
 app.use(authRoutes);
+//Users
+app.use(userRoutes);
 
 // Routes de test
 app.get('/', (req, res) => {
@@ -23,7 +25,7 @@ app.get('/', (req, res) => {
 
 
 // Synchroniser la base de données et démarrer le serveur
-sequelize.sync({ force: true })  
+sequelize.sync({ force: true })  //ecrase et rerempli avec les données à jour
   .then(() => {
       console.log('La base de données est synchronisée');
       app.listen(PORT, () => {

@@ -1,4 +1,5 @@
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcrypt');//hashage
+const jwt = require('jsonwebtoken'); //token pour authentifier les requetes envoyées au navigateur
 const { validationResult } = require('express-validator');
 const User = require('../models/User'); 
 
@@ -37,7 +38,29 @@ const registerUser = async (req, res) => {
         return res.status(500).json({ message: "Erreur serveur, voici l'erreur : ", error: error.message });
       }
   };
-  
+
+
+const loginUser = async (req, res) => {
+  const { email, password } = req.body;
+
+  try {
+    const user = await User.findOne({ where: { email } });
+
+    if (!user || !(await bcrypt.compare(password, user.password))) {
+      return res.status(401).json({ message: 'Email ou mot de passe incorrect' });
+    }
+
+    const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
+      expiresIn: '1h',
+    });
+
+    res.json({ token });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+
   module.exports = {
-    registerUser,
+    registerUser, loginUser
   };
