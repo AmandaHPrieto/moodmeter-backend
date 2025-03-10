@@ -3,7 +3,8 @@ const express = require('express');
 const cors = require('cors');
 const sequelize = require('./db');  
 const authRoutes = require('./src/routes/authRoutes');
-const userRoutes = require ('./src/routes/userRoutes')// Modèles
+const userRoutes = require ('./src/routes/userRoutes')
+// Modèles
 require('./src/models/User');
 require('./src/models/UE');
 require('./src/models/Retour');
@@ -35,7 +36,7 @@ app.get('/', (req, res) => {
 
 
 // Synchroniser la base de données et démarrer le serveur
-sequelize.sync({ force: false })  
+sequelize.sync({ force: true })  
   .then(() => {
       console.log('La base de données est synchronisée');
       app.listen(PORT, () => {

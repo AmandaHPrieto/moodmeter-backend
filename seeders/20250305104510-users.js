@@ -104,11 +104,11 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
-        email: 'clement.lignieres@etu.unilim.fr',
+        email: 'clement.lonsagne@etu.unilim.fr',
         pseudo: 'clement',
         password: await bcrypt.hash('password123', 10),
         role: 'eleve',
-        nom: 'Lignières',
+        nom: 'Lonsagne',
         prenom: 'Clément',
         image: null,
         createdAt: new Date(),

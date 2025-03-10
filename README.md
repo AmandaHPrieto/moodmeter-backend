@@ -19,3 +19,6 @@ Il est construit avec Node.js, Express et MySQL.
 Ou en mode développement :
     npm run dev
 
+## 🌱 Seeders
+npx sequelize-cli db:seed:all
+
