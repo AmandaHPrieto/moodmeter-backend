@@ -3,7 +3,7 @@ const express = require('express');
 const cors = require('cors');
 const sequelize = require('./db');  
 const authRoutes = require('./src/routes/authRoutes');
-// Modèles
+const userRoutes = require ('./src/routes/userRoutes')// Modèles
 require('./src/models/User');
 require('./src/models/UE');
 require('./src/models/Retour');
@@ -25,6 +25,8 @@ app.use(express.json());
 // Routes
 // Auth
 app.use(authRoutes);
+//Users
+app.use(userRoutes);
 
 // Routes de test
 app.get('/', (req, res) => {

@@ -1,6 +1,5 @@
 const express = require('express');
-const { registerUser } = require('../controllers/authController');
-const { loginUser } = require('../controllers/authController');
+const { registerUser, loginUser } = require('../controllers/authController');
 const { body } = require('express-validator');
 
 const router = express.Router();
@@ -18,8 +17,8 @@ router.post('/register',
 
 router.post('/login', 
   [
-    body("email").notEmpty().withMessage("Entrez votre email"),
-    body("password").notEmpty().withMessage("Entrez votre mot de passe"),
+    body("email").isEmail().withMessage("Email invalide"),
+    body("password").notEmpty().withMessage("Le mot de passe est obligatoire"),
   ], 
   loginUser
 );
