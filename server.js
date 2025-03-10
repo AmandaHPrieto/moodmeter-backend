@@ -3,6 +3,16 @@ const express = require('express');
 const cors = require('cors');
 const sequelize = require('./db');  
 const authRoutes = require('./src/routes/authRoutes');
+// Modèles
+require('./src/models/User');
+require('./src/models/UE');
+require('./src/models/Retour');
+require('./src/models/PromoUE');
+require('./src/models/ElevePromo');
+require('./src/models/Promotion');
+require('./src/models/ArchiveRetour');
+require('./src/models/associations');
+
 
 
 const app = express();
@@ -23,7 +33,7 @@ app.get('/', (req, res) => {
 
 
 // Synchroniser la base de données et démarrer le serveur
-sequelize.sync({ force: true })  
+sequelize.sync({ force: false })  
   .then(() => {
       console.log('La base de données est synchronisée');
       app.listen(PORT, () => {
