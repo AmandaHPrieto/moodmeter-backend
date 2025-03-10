@@ -19,6 +19,9 @@ Il est construit avec Node.js, Express et MySQL.
 Ou en mode développement :
     npm run dev
 
-## 🌱 Seeders
-npx sequelize-cli db:seed:all
+## 🌱 BDD et seeders
+1. Créer une bdd "moodmeter" dans phpmyadmin
+
+2. Créer les seeders
+    npx sequelize-cli db:seed:all
 
