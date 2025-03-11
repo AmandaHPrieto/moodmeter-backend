@@ -35,9 +35,10 @@ app.get('/', (req, res) => {
 sequelize.sync({ force: true })  
   .then(() => {
       console.log('La base de données est synchronisée');
-      app.listen(PORT, () => {
-          console.log(`Server running on http://localhost:${PORT}`);
-      });
+      app.listen(process.env.PORT, () => {
+        console.log(`Server running on http://localhost:${process.env.PORT}`);
+    });
+    
   })
   .catch((err) => {
       console.error('Erreur lors de la synchronisation de la base de données:', err);
