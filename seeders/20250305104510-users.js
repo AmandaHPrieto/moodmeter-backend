@@ -4,7 +4,7 @@ const bcrypt = require('bcrypt');
 module.exports = {
   async up(queryInterface, Sequelize) {
     return queryInterface.bulkInsert('Users', [
-      {
+      { id: 5,
         email: 'admin@example.com',
         pseudo: 'admin',
         password: await bcrypt.hash('password123', 10),
@@ -15,7 +15,8 @@ module.exports = {
         createdAt: new Date(),
         updatedAt: new Date(),
       },
-      {
+      { 
+        id:6,
         email: 'eleve@example.com',
         pseudo: 'Bibiche',
         password: await bcrypt.hash('password123', 10),
@@ -26,7 +27,8 @@ module.exports = {
         createdAt: new Date(),
         updatedAt: new Date(),
       },
-      {
+      { 
+        id:4,
         email: 'baptiste@etu.unilim.fr',
         pseudo: 'baptiste',
         password: await bcrypt.hash('password123', 10),
@@ -37,7 +39,7 @@ module.exports = {
         createdAt: new Date(),
         updatedAt: new Date(),
       },
-      {
+      { id: 2,
         email: 'philippe@etu.unilim.fr',
         pseudo: 'philippe',
         password: await bcrypt.hash('password123', 10),
@@ -48,7 +50,7 @@ module.exports = {
         createdAt: new Date(),
         updatedAt: new Date(),
       },
-      {
+      { id: 3,
         email: 'sofiane@etu.unilim.fr',
         pseudo: 'sofiane',
         password: await bcrypt.hash('password123', 10),
@@ -60,6 +62,7 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
+        id: 1,
         email: 'benoit@etu.unilim.fr',
         pseudo: 'benoit',
         password: await bcrypt.hash('password123', 10),
@@ -70,7 +73,7 @@ module.exports = {
         createdAt: new Date(),
         updatedAt: new Date(),
       },
-      {
+      { id: 7,
         email: 'amanda.hery-prieto@etu.unilim.fr',
         pseudo: 'amanda',
         password: await bcrypt.hash('password123', 10),
@@ -81,7 +84,8 @@ module.exports = {
         createdAt: new Date(),
         updatedAt: new Date(),
       },
-      {
+      { 
+        id:8,
         email: 'abigail.germon@etu.unilim.fr',
         pseudo: 'abigail',
         password: await bcrypt.hash('password123', 10),
@@ -92,7 +96,8 @@ module.exports = {
         createdAt: new Date(),
         updatedAt: new Date(),
       },
-      {
+      { 
+        id:9,
         email: 'estelle.dabrinville@etu.unilim.fr',
         pseudo: 'estelle',
         password: await bcrypt.hash('password123', 10),
@@ -103,7 +108,8 @@ module.exports = {
         createdAt: new Date(),
         updatedAt: new Date(),
       },
-      {
+      { 
+        id:10,
         email: 'clement.lonsagne@etu.unilim.fr',
         pseudo: 'clement',
         password: await bcrypt.hash('password123', 10),
@@ -114,7 +120,8 @@ module.exports = {
         createdAt: new Date(),
         updatedAt: new Date(),
       },
-      {
+      { 
+        id: 11,
         email: 'estephe.djaguidi@etu.unilim.fr',
         pseudo: 'estephe',
         password: await bcrypt.hash('password123', 10),

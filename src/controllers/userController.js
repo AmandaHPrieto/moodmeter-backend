@@ -30,36 +30,30 @@ const getUserById = async (req, res) => {
 
 
 const getUserDetails = async (req, res) => {
-  const userId = req.user.id; // ID de l'utilisateur connecté extrait du token JWT
-
   try {
-    const userData = await sequelize.query(
-      `SELECT 
-        U.id AS eleveId,
-        U.nom,
-        U.prenom,
-        U.pseudo,
-        U.email,
-        U.image AS pic,
-        P.nom AS promotion,
-        GROUP_CONCAT(DISTINCT UE.nom) AS courses
-      FROM Users U
-      LEFT JOIN ElevePromo EP ON U.id = EP.eleveId
-      LEFT JOIN Promotions P ON EP.promoId = P.id
-      LEFT JOIN PromoUEs PU ON P.id = PU.promoId
-      LEFT JOIN UEs UE ON PU.ueId = UE.id
-      WHERE U.id = :userId
-      GROUP BY U.id, P.nom`,
-      {
-        replacements: { userId },
-        type: sequelize.QueryTypes.SELECT
+    const userId=req.user.id; 
+    const userDetails = await User.findOne({
+      where: {id: userId},
+      attributes: ['id', 'nom', 'prenom', 'pseudo', 'email', 'image'],
+      include: [//permet de rapatrier promo  liée à l id user
+        {
+          model : Promotion,
+          attributes: ['id', 'nom'],
+          include: {//permet de rapatrier les UE liées à l'id promo
+            model: UE, 
+            attributes: ['id', 'nom'],
+            through: { attributes: []}// on evite de rapatrier les metadonnées inutiles
+          },
+        },
+      ],
+    });
+      if(userDetails){
+        res.json(userDetails);// Retourne les données de l'étudiant ou enseignant connecté
+      }else {
+        res.status(404).json({message: 'Utilisateur non trouvé.'});
       }
-    );
-
-    // Retourne les données de l'étudiant
-    res.json(userData[0]);
   } catch (err) {
-    console.error("Erreur lors de la récupération des données étudiant :", err);
+    console.error("Erreur lors de la récupération des données de l'utilisateur:", err);
     res.status(500).json({ message: "Erreur serveur", error: err.message });
   }
 };
