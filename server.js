@@ -3,7 +3,9 @@ const express = require('express');
 const cors = require('cors');
 const sequelize = require('./db');  
 const authRoutes = require('./src/routes/authRoutes');
-const userRoutes = require ('./src/routes/userRoutes')
+const feedbackRoutes = require('./src/routes/feedbackRoutes');
+const userRoutes = require('./src/routes/userRoutes');
+
 // Modèles
 require('./src/models/User');
 require('./src/models/UE');
@@ -14,30 +16,39 @@ require('./src/models/Promotion');
 require('./src/models/ArchiveRetour');
 require('./src/models/associations');
 
-
-
 const app = express();
-app.use(cors());
-app.use(express.json());
+
+// Configuration de CORS
+const corsOptions = {
+  origin: 'http://localhost:3000', 
+  methods: 'GET,POST,PUT,DELETE', 
+  allowedHeaders: 'Content-Type,Authorization',
+};
+
+app.use(cors(corsOptions));  
+app.use(express.json());      
 
 // Routes
-// Auth
+// Authentification
 app.use(authRoutes);
-//Users
+
+// Gestion des utilisateurs
 app.use(userRoutes);
+
+// Routes pour les feedbacks
+app.use('/api', feedbackRoutes);
 
 // Routes de test
 app.get('/', (req, res) => {
     res.send('🥳 Le back-end de Moodmeter marche, woop woop !');
 });
 
-
-// Synchroniser la base de données et démarrer le serveur
-sequelize.sync({ force: true })  
+// Synchronisation avec la base de données et démarrage du serveur
+sequelize.sync({ alter: true })
   .then(() => {
       console.log('La base de données est synchronisée');
-      app.listen(process.env.PORT, () => {
-        console.log(`Server running on http://localhost:${process.env.PORT}`);
+      app.listen(process.env.PORT || 5000, () => {  
+        console.log(`Server running on http://localhost:${process.env.PORT || 5000}`);
     });
     
   })
