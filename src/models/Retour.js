@@ -1,5 +1,7 @@
 const { Sequelize, DataTypes } = require('sequelize');
 const sequelize = require('../../db');
+const UE = require('./UE');
+const User = require('./User');
 
 const Retour = sequelize.define('Retour', {
   id: {
