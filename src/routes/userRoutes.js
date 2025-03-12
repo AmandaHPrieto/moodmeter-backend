@@ -12,7 +12,4 @@ router.get('/users/:id', verifyToken, userController.getUserById);
 //Route pour afficher les détails de l'utilisateur
 router.get('/home', verifyToken, userController.getUserDetails);
 
-
-//Route pour lister les enseignants :
-router.get('/enseignants', getAllEnseignants);
-module.exports = router;
+module.exports= router; 

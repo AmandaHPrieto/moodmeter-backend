@@ -21,9 +21,9 @@ app.use(express.json());
 
 // Routes
 // Auth
-app.use(authRoutes);
+app.use( authRoutes);
 //Users
-app.use(userRoutes);
+app.use( userRoutes);
 
 // Routes de test
 app.get('/', (req, res) => {
