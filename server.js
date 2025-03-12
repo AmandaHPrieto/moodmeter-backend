@@ -3,13 +3,12 @@ const express = require('express');
 const cors = require('cors');
 const sequelize = require('./db');  
 const authRoutes = require('./src/routes/authRoutes');
-const userRoutes = require ('./src/routes/userRoutes')
+const userRoutes = require ('./src/routes/userRoutes');
+const feedbackRoutes = require('./src/routes/feedbackRoutes');
 // Modèles
 require('./src/models/User');
 require('./src/models/UE');
 require('./src/models/Retour');
-require('./src/models/PromoUE');
-require('./src/models/ElevePromo');
 require('./src/models/Promotion');
 require('./src/models/ArchiveRetour');
 require('./src/models/associations');
@@ -25,6 +24,8 @@ app.use(express.json());
 app.use(authRoutes);
 //Users
 app.use(userRoutes);
+// Feedback
+app.use(feedbackRoutes);
 
 // Routes de test
 app.get('/', (req, res) => {

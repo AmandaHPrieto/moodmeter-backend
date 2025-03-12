@@ -11,6 +11,14 @@ const UE = sequelize.define('UE', {
     type: DataTypes.STRING,
     allowNull: false,
   },
+  promoId: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    references: {
+      model: 'Promotions', 
+      key: 'id',
+    },
+  },
   enseignantId: {
     type: DataTypes.INTEGER,
     allowNull: false,
