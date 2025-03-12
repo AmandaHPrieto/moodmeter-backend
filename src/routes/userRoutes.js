@@ -9,4 +9,7 @@ router.get('/users', verifyToken, userController.getAllUsers);
 //Route pour récupérer un utilisateur via son ID
 router.get('/users/:id', verifyToken, userController.getUserById);
 
-module.exports = router;
+//Route pour afficher les détails de l'utilisateur
+router.get('/home', verifyToken, userController.getUserDetails);
+
+module.exports= router; 

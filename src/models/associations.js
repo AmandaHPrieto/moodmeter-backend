@@ -8,8 +8,9 @@ const Retour = require('./Retour');
 const ArchiveRetour = require('./ArchiveRetour');
 
 // Relations entre les utilisateurs et les promotions
-User.hasOne(Promotion, { foreignKey: 'userId' });
-User.hasMany(Retour, { foreignKey: 'eleveId' });
+User.belongsTo(Promotion, { foreignKey: 'promoId' });
+Promotion.hasMany(User, { foreignKey: 'promoId' });
+
 
 // Relations entre les promotions et les UE
 Promotion.belongsToMany(UE, { through: PromoUE, foreignKey: 'promoId' });
