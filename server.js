@@ -21,7 +21,7 @@ app.use(express.json());
 
 // Routes
 // Auth
-app.use(authRoutes);
+app.use( authRoutes);
 //Users
 app.use(userRoutes);
 // Feedback

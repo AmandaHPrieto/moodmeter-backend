@@ -54,7 +54,16 @@ const loginUser = async (req, res) => {
       expiresIn: '1h',
     });
 
-    res.json({ token });
+    res.json({ token,
+      user: {
+        id: user.id,
+        nom: user.nom,
+        prenom: user.prenom,
+        pseudo: user.pseudo,
+        email: user.email,
+        role: user.role,
+      },
+     });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
