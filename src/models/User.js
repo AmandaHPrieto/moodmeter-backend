@@ -1,5 +1,6 @@
 const { Sequelize, DataTypes } = require('sequelize');
 const sequelize = require('../../db'); 
+const Promotion = require('./Promotion'); 
 
 const User = sequelize.define('User', {
   id: {
@@ -36,6 +37,16 @@ const User = sequelize.define('User', {
     type: DataTypes.STRING,
     allowNull: true,
   },
+  promoId: {
+    type: DataTypes.INTEGER,
+    allowNull: true, 
+    references: {
+      model: 'Promotions', 
+      key: 'id',
+    },
+    onUpdate: 'CASCADE',
+    onDelete: 'SET NULL', 
+  },
   createdAt: {
     type: DataTypes.DATE,
     defaultValue: Sequelize.NOW,
@@ -48,5 +59,9 @@ const User = sequelize.define('User', {
   tableName: 'Users', 
   timestamps: true, 
 });
+
+// Association entre user et promo
+User.belongsTo(Promotion, { foreignKey: 'promoId' });
+Promotion.hasMany(User, { foreignKey: 'promoId' });
 
 module.exports = User;
