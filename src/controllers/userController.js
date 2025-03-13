@@ -1,62 +1,64 @@
 const User = require('../models/User'); 
-const sequelize = require('../../db.js'); 
-
-
-// récupérer tous les utilisateurs (ne pas inclure la route dedans directement)
-const getAllUsers = async (req, res) => {
-    try {
-        const users = await User.findAll();
-        res.json(users);
-    } catch (err) {
-        res.status(500).json({ error: err.message });
-    }
-};
-
-
-const getUserById = async (req, res) => {
-    try {
-      const userId = parseInt(req.params.id);
-      const user = await User.findByPk(userId);
-  
-      if (user) {
-        res.json(user);
-      } else {
-        res.status(404).json({ message: 'Utilisateur non trouvé' });
-      }
-    } catch (err) {
-      res.status(500).json({ error: err.message });
-    }
-};  
+const Promotion = require('../models/Promotion'); 
+const UE = require('../models/UE'); 
 
 
 const getUserDetails = async (req, res) => {
   try {
-    const userId=req.user.id; 
+    // Vérifier l'ID utilisateur récupéré depuis req.user
+    const userId = req.user.id;
+    console.log("ID utilisateur récupéré:", userId);
+
+    // Vérifier les détails de l'utilisateur avant de les renvoyer
     const userDetails = await User.findOne({
-      where: {id: userId},
+      where: { id: userId },
       attributes: ['id', 'nom', 'prenom', 'pseudo', 'email', 'image'],
-      include: [//permet de rapatrier promo  liée à l id user
+      include: [
         {
-          model : Promotion,
+          model: Promotion,
           attributes: ['id', 'nom'],
-          include: {//permet de rapatrier les UE liées à l'id promo
-            model: UE, 
+          include: {
+            model: UE,
             attributes: ['id', 'nom'],
-            through: { attributes: []}// on evite de rapatrier les metadonnées inutiles
           },
         },
       ],
     });
-      if(userDetails){
-        res.json(userDetails);// Retourne les données de l'étudiant ou enseignant connecté
-      }else {
-        res.status(404).json({message: 'Utilisateur non trouvé.'});
-      }
-  } catch (err) {
+
+    //console.log("Détails utilisateur trouvés:", userDetails);
+    //userDetails.Promotion.UEs.forEach(ue => {
+      //console.log("UE trouvée:", ue);
+    //});
+//preparation des données à transmettre
+    if (userDetails) {
+      const userDetailsFetch={
+    id: userDetails.id,
+    nom: userDetails.nom,
+    prenom: userDetails.prenom,
+    pseudo: userDetails.pseudo,
+    email: userDetails.email,
+    image: userDetails.image,
+    promotion: userDetails.Promotion ? {
+      id: userDetails.Promotion.id,
+      nom: userDetails.Promotion.nom,
+      ues: userDetails.Promotion.UEs.map(ue => ({
+        id: ue.id,
+        nom: ue.nom,
+      })),
+    } : null, // pour les profs=null
+  };
+  console.log("Données formatées envoyées :", userDetailsFetch);
+      res.json(userDetailsFetch); // Retourne les données recupérées 
+    }
+    else {
+      console.log("Utilisateur introuvable.");
+      res.status(404).json({ message: 'Utilisateur introuvable.' });
+    }
+  } 
+  catch (err) {
     console.error("Erreur lors de la récupération des données de l'utilisateur:", err);
     res.status(500).json({ message: "Erreur serveur", error: err.message });
   }
 };
-
-module.exports = { getUserById, getAllUsers, getUserDetails };
-
+module.exports = getUserDetails ;
+console.log("Modèle User :", User);
