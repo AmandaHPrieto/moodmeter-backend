@@ -12,7 +12,9 @@ const getUserDetails = async (req, res) => {
     // Vérifier les détails de l'utilisateur avant de les renvoyer
     const userDetails = await User.findOne({
       where: { id: userId },
-      attributes: ['id', 'nom', 'prenom', 'pseudo', 'email', 'image', 'role'],
+
+      attributes: ['id', 'nom', 'prenom', 'pseudo', 'email', 'role', 'image'],
+
       include: [
         {
           model: Promotion,
@@ -37,6 +39,7 @@ const getUserDetails = async (req, res) => {
     prenom: userDetails.prenom,
     pseudo: userDetails.pseudo,
     email: userDetails.email,
+    role: userDetails.role,
     image: userDetails.image,
     role: userDetails.role,
     promotion: userDetails.Promotion ? {
