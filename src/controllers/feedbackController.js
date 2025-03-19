@@ -2,6 +2,24 @@ const Feedback = require('../models/Retour');
 const { Sequelize } = require('sequelize');
 const UE = require('../models/UE');
 
+
+const getUeDetails = async (req, res) => {
+  const {ueId} =req.params;
+
+  try {
+    const ueDetails = await UE.findOne({
+      where: { id: ueId},
+    });
+    if (!ueDetails){
+      return res.status(404).json({ message : "L'UE n'a pas été trouvée"});
+    }
+    res.json(ueDetails);
+  }
+  catch(error){
+    console.error("Il y a eu une erreur lors de la tentative de récupétation de l'UE: ", error);
+    res.status(500).json({message: "Une erreur serveur est survenue :", error: error.message})
+  }
+};
 // Récupérer tous les feedbacks avec les infos sur l'élève et l'UE
 const getAllFeedback = async (req, res) => {
     try {
@@ -14,8 +32,19 @@ const getAllFeedback = async (req, res) => {
 
 // Ajouter un feedback
 const addFeedback = async (req, res) => {
-    const { clarte_consigne, difficulte, reactivite_enseignant, ressenti_global, eleveId, ueId } = req.body;
-    try {
+  if (!req.user || !req.user.id) {
+    return res.status(401).json({ message: "Utilisateur non authentifié." });
+}
+
+    const { ueId, clarte_consigne, difficulte, reactivite_enseignant, ressenti_global} = req.body;
+    //récupération de l'ID de l'utrilisateur connecté
+    const eleveId=req.user.id;
+     try {
+      //recherche existence de l'UE via sa clé primaire
+      const ue= await UE.findByPk(ueId);
+      if(!ue) {
+        return res.status(404).json({message:"UE non trouvée"});
+      }
         const newFeedback = await Feedback.create({
             clarte_consigne,
             difficulte,
@@ -54,5 +83,5 @@ const getAverageFeedback = async (req, res) => {
 
 
 module.exports = {
-    getAllFeedback, addFeedback, getAverageFeedback
+    getUeDetails, getAllFeedback, addFeedback, getAverageFeedback
 };

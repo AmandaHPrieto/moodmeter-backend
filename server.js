@@ -5,6 +5,10 @@ const sequelize = require('./db');
 const authRoutes = require('./src/routes/authRoutes');
 const userRoutes = require ('./src/routes/userRoutes');
 const feedbackRoutes = require('./src/routes/feedbackRoutes');
+
+//const authenticate = require('./src/middleware/authMiddleware');
+
+
 // Modèles
 require('./src/models/User');
 require('./src/models/UE');
@@ -13,9 +17,9 @@ require('./src/models/Promotion');
 require('./src/models/ArchiveRetour');
 require('./src/models/associations');
 
-
-
 const app = express();
+
+//app.use(authenticate); 
 app.use(cors());
 app.use(express.json());
 
@@ -34,7 +38,7 @@ app.get('/', (req, res) => {
 
 
 // Synchroniser la base de données et démarrer le serveur
-sequelize.sync({ force: false})  
+sequelize.sync({ force: true})  
   .then(() => {
       console.log('La base de données est synchronisée');
       app.listen(process.env.PORT, () => {
