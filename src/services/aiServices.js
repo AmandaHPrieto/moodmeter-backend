@@ -8,7 +8,7 @@ const callAI = async (prompt) => {
     try {
         const response = await axios.post(
             HF_API_URL,
-            { inputs: prompt },
+            { inputs: prompt, parameters: { return_full_text: false } }, // Pour éviter de renvoyer le prompt
             { headers: { Authorization: `Bearer ${HF_TOKEN}` } }
         );
         return response.data;

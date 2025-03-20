@@ -77,7 +77,7 @@ ${feedbackData.map((feedback) =>
 
 Réponds sous ce format et évite les structures répétitives :
 
-- UEL315 : Les consignes sont claires et la difficulté est jugée accessible. L'enseignant est réactif, et le ressenti général est positif. Des exercices plus stimulants pourraient rendre le cours plus engageant.
+- UEL301 : Les consignes sont claires et la difficulté est jugée accessible. L'enseignant est réactif, et le ressenti général est positif. Des exercices plus stimulants pourraient rendre le cours plus engageant.
 
 `
 
