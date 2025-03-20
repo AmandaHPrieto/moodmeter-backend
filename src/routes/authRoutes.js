@@ -2,6 +2,7 @@ const express = require('express');
 const router= express.Router();
 const { registerUser, loginUser } = require('../controllers/authController');
 const { body } = require('express-validator');
+const verifyToken = require( '../middleware/authMiddleware');
 
 
 
@@ -26,5 +27,17 @@ router.post('/login',
   ], 
   loginUser
 );
+
+//Route de vérification du token de session
+router.post('/validate-session', verifyToken, (req, res) => {
+  try {
+    // Si le middleware passe, req.user contient les données de l'utilisateur
+    res.status(200).json({ user: req.user });
+  } catch (error) {
+    res.status(500).json({ message: 'Erreur lors de la validation de la session' });
+  }
+});
+
+
 
 module.exports = router;
