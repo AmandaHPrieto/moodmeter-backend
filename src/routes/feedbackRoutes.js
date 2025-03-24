@@ -4,8 +4,6 @@ const feedbackController = require('../controllers/feedbackController');
 const verifyToken = require( '../middleware/authMiddleware');
 
 
-
-
 // Route pour récupérer tous les feedbacks
 router.get('/feedback', feedbackController.getAllFeedback);
 
